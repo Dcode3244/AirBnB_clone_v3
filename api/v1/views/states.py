@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-handles all default RESTFUl API actions
+handles all RESTFUl API actions for State
 """
 
 from api.v1.views import app_views

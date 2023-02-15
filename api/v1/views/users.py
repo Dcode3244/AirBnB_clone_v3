@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-handles all RESTFUl API actions for Users
+handles all RESTFUl API actions for Users.
 """
 
 from api.v1.views import app_views
