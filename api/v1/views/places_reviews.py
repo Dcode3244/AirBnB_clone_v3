@@ -39,7 +39,7 @@ def reviews_by_place_id(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET', 'DELETE', 'PUT'])
-def reviews_by_review_id(place_id):
+def reviews_by_review_id(review_id):
     """  defines a route to /reviews/<review_id> """
     allReview = [r for r in storage.all('Review').values()]
     review = [r for r in allReview if r.id == review_id]
