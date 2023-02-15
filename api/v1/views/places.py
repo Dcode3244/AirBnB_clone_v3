@@ -25,6 +25,9 @@ def places_by_city_id(city_id):
             return make_response('Not a JSON', 400)
         if 'user_id' not in request.json:
             return make_response('Missing user_id', 400)
+        user = storage.get(classes['User'], request.json.get('user_id'))
+        if user is None:
+            abort(404)
         if 'name' not in request.json:
             return make_response('Missing name', 400)
         placeDict = request.json
@@ -54,8 +57,9 @@ def places_by_place_id(place_id):
         if not request.json:
             return make_response('Not a JSON', 400)
         data = request.json
+        checkList = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
         for key, value in data.items():
-            if key not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
+            if key not in checkList:
                 setattr(places[0], key, value)
                 places[0].save()
         return jsonify(places[0].to_dict()), 200
