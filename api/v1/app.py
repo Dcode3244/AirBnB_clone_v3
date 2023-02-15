@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Initiates a Flask app
+Initiates a Flask app.
 """
 
 from os import getenv
@@ -23,7 +23,7 @@ def not_found(e):
 
 @app.teardown_appcontext
 def teardown_db(exception):
-    """ closes the storage on teardown  """
+    """ closes the storage on teardown """
     storage.close()
 
 
