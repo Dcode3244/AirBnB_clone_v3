@@ -65,46 +65,46 @@ def places_by_place_id(place_id):
         return jsonify(places[0].to_dict()), 200
 
 
-@app_views.route('/places_search', methods=['POST'])
-def places_search():
-    """
-        places route to handle http method for request to search places
-    """
-    all_places = [p for p in storage.all('Place').values()]
-    req_json = request.get_json()
-    if req_json is None:
-        abort(400, 'Not a JSON')
-    states = req_json.get('states')
-    if states and len(states) > 0:
-        all_cities = storage.all('City')
-        state_cities = set([city.id for city in all_cities.values()
-                            if city.state_id in states])
-    else:
-        state_cities = set()
-    cities = req_json.get('cities')
-    if cities and len(cities) > 0:
-        cities = set([
-            c_id for c_id in cities if storage.get('City', c_id)])
-        state_cities = state_cities.union(cities)
-    amenities = req_json.get('amenities')
-    if len(state_cities) > 0:
-        all_places = [p for p in all_places if p.city_id in state_cities]
-    elif amenities is None or len(amenities) == 0:
-        result = [place.to_dict() for place in all_places]
-        return jsonify(result)
-    places_amenities = []
-    if amenities and len(amenities) > 0:
-        amenities = set([
-            a_id for a_id in amenities if storage.get('Amenity', a_id)])
-        for p in all_places:
-            p_amenities = None
-            if storage_t == 'db' and p.amenities:
-                p_amenities = [a.id for a in p.amenities]
-            elif len(p.amenities) > 0:
-                p_amenities = p.amenities
-            if p_amenities and all([a in p_amenities for a in amenities]):
-                places_amenities.append(p)
-    else:
-        places_amenities = all_places
-    result = [place.to_dict() for place in places_amenities]
+@app_views.route("/places_search", methods=['POST'])
+def place_search_get():
+    result = []
+    if not request.json:
+        return make_response("Not a JSON", 400)
+    if not len(request.json):
+        task = [task for task in storage.all('Place')]
+        return jsonify(task)
+    place_T = list(storage.all('Place').values())
+    if 'amenities' in request.json:
+        place_T = []
+        for T in storage.all('Place').values():
+            for ament in T.amenities:
+                for A_key in request.json['amenities']:
+                    if ament.id == A_key:
+                        place_T.append(ament)
+    if 'states' in request.json and 'cities' not in request.json:
+        states = [storage.get(classes["State"], states)
+                  for states in request.json['states']]
+        for state in states:
+            for city in state.cities:
+                for i in storage.all("Place").values():
+                    if i.city_id == city.id:
+                        result.append(i.to_dict())
+    elif 'cities' in request.json and 'states' not in request.json:
+        cities = request.json['cities']
+        for city in cities:
+            for i in storage.all("Place").values():
+                if i.city_id == city:
+                    result.append(i.to_dict())
+    elif ('states' in request.json and 'cities' in request.json):
+        test = []
+        states = [storage.get(classes["State"], states)
+                  for states in request.json.get('states')]
+        citi = request.json['cities']
+        for state in states:
+            for city, city_P in zip(state.cities, citi):
+                for i in storage.all("Place").values():
+                    if i.city_id == city.id or i.city_id == city_P:
+                        test.append(i.to_dict())
+        result = []
+        [result.append(x) for x in test if x not in result]
     return jsonify(result)
