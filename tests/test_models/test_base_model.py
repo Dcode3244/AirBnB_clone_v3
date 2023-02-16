@@ -70,6 +70,7 @@ class TestinClassModel(unittest.TestCase):
 
         for attr, typ in types_attr.items():
             with self.subTest(attr=attr, typ=typ):
+<<<<<<< HEAD
                 self.assertIn(attr, instance.__dict__)
                 self.assertIs(type(instance.__dict__[attr]), typ)
         self.assertEqual(instance.name, "Holbie")
@@ -92,6 +93,30 @@ class TestinClassModel(unittest.TestCase):
         self.assertEqual(instance2.updated_at, instance2.updated_at)
         self.assertNotEqual(instance1.created_at, instance2.created_at)
         self.assertNotEqual(instance1.updated_at, instance2.updated_at)
+=======
+                self.assertIn(attr, inst.__dict__)
+                self.assertIs(type(inst.__dict__[attr]), typ)
+        self.assertEqual(inst.name, "Holberton")
+        self.assertEqual(inst.number, 89)
+
+    def test_datetime_attributes(self):
+        """Test that two BaseModel instances have different datetime objects
+        and that upon creation have identical updated_at and created_at
+        value."""
+        tic = datetime.now()
+        inst1 = BaseModel()
+        toc = datetime.now()
+        self.assertTrue(tic <= inst1.created_at <= toc)
+        time.sleep(1e-4)
+        tic = datetime.now()
+        inst2 = BaseModel()
+        toc = datetime.now()
+        self.assertTrue(tic <= inst2.created_at <= toc)
+        self.assertEqual(inst1.created_at, inst1.updated_at)
+        self.assertEqual(inst2.created_at, inst2.updated_at)
+        self.assertNotEqual(inst1.created_at, inst2.created_at)
+        self.assertNotEqual(inst1.updated_at, inst2.updated_at)
+>>>>>>> 7011bd7fa44cfcbd29c7b265614aea8ae8c08092
 
     def test_uuid(self):
         """testing uuid"""
