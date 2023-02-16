@@ -95,10 +95,10 @@ def place_search_get():
             for i in storage.all("Place").values():
                 if i.city_id == city:
                     result.append(i.to_dict())
-    else:
+    elif ('states' in request.json and 'cities' in request.json):
         test = []
         states = [storage.get(classes["State"], states)
-                  for states in request.json['states']]
+                  for states in request.json.get('states')]
         citi = request.json['cities']
         for state in states:
             for city, city_P in zip(state.cities, citi):
