@@ -6,7 +6,6 @@ Contains the TestAmenityDocs classes
 from datetime import datetime
 import inspect
 import models
-<<<<<<< HEAD
 import pep8 as pycodestyle
 from models.base_model import BaseModel
 from models.engine.db_storage import DBStorage
@@ -18,21 +17,17 @@ Amenity = models.amenity.Amenity
 module_doc = models.amenity.__doc__
 path1 = "models/amenity.py"
 path2 = "tests/test_models/test_amenity.py"
-=======
->>>>>>> 7e86529e48c2fd6d9c8b595e61296573d4f7a4fc
 from models import amenity
 from models.base_model import BaseModel
 import pep8
 import unittest
 Amenity = amenity.Amenity
 
-<<<<<<< HEAD
 
 
 class DocsTest(unittest.TestCase):
     """Test to check behaviors"""
-=======
->>>>>>> 7e86529e48c2fd6d9c8b595e61296573d4f7a4fc
+
 
 class TestAmenityDocs(unittest.TestCase):
     """Tests to check the documentation and style of Amenity class"""
@@ -78,7 +73,6 @@ class TestAmenityDocs(unittest.TestCase):
                             "{:s} method needs a docstring".format(func[0]))
 
 
-<<<<<<< HEAD
         expectec_attrs_types = {
             "id": str,
             "created_at": datetime,
@@ -137,7 +131,7 @@ class TestAmenityDocs(unittest.TestCase):
         self.assertEqual(new_inst['__class__'], 'Amenity')
         self.assertEqual(new_inst['name'], 'Holbies foravaaaa')
 
-=======
+
 class TestAmenity(unittest.TestCase):
     """Test the Amenity class"""
     def test_is_subclass(self):
@@ -148,7 +142,6 @@ class TestAmenity(unittest.TestCase):
         self.assertTrue(hasattr(amenity, "created_at"))
         self.assertTrue(hasattr(amenity, "updated_at"))
 
->>>>>>> 7e86529e48c2fd6d9c8b595e61296573d4f7a4fc
     def test_name_attr(self):
         """Test that Amenity has attribute name, and it's as an empty string"""
         amenity = Amenity()
@@ -169,16 +162,12 @@ class TestAmenity(unittest.TestCase):
             if attr is not "_sa_instance_state":
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
-<<<<<<< HEAD
-
 
     def test_str_method(self):
         """testing str method, checking output"""
         instance4 = Amenity()
         strr = "[Amenity] ({}) {}".format(instance4.id, instance4.__dict__)
         self.assertEqual(strr, str(instance4))
-=======
->>>>>>> 7e86529e48c2fd6d9c8b595e61296573d4f7a4fc
 
     def test_to_dict_values(self):
         """test that values in dict returned from to_dict are correct"""
