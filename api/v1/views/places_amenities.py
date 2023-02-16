@@ -31,17 +31,18 @@ def handle_amenities_by_id(place_id, amenity_id):
         amenity = storage.get(classes['Amenity'], amenity_id)
         if (not amenity):
             abort(404)
-        if storage_t == "db":
-            if amenity not in place.amenities:
-                abort(404)
-            place.amenities.remove(amenity)
+        if storage_t == 'db':
+            amenities = place.amenities
+            a = amenity
         else:
-            if amenity.id not in place.amenity_id:
-                abort(404)
-            place.amenity_id.remove(amenity.id)
-
-        storage.save()
-        return jsonify({}), 200
+            amenities = place.amenity_id
+            a = amenity.id
+        for i in range(len(amenities)):
+            if amenities[i] == a:
+                amenities.pop(i)
+                storage.save()
+                return jsonify({}), 200
+        abort(404)
 
     if request.method == 'POST':
         place = storage.get(classes["Place"], place_id)
@@ -57,7 +58,7 @@ def handle_amenities_by_id(place_id, amenity_id):
             amenities = place.amenity_id
         for a in amenities:
             if (a == amenity):
-                return jsonify(amenity.to_dict()), 200
+                return jsonify(a.to_dict()), 200
 
         place.amenities.append(amenity)
         amenity.save()
