@@ -3,7 +3,6 @@
 from datetime import datetime
 import inspect
 import models
-<<<<<<< HEAD
 import pep8 as pycodestyle
 from models.base_model import BaseModel
 from models.engine.db_storage import DBStorage
@@ -15,14 +14,12 @@ Amenity = models.amenity.Amenity
 module_doc = models.amenity.__doc__
 path1 = "models/amenity.py"
 path2 = "tests/test_models/test_amenity.py"
-=======
 from models import amenity
 from models.base_model import BaseModel
 import pep8
 import unittest
 Amenity = amenity.Amenity
 
->>>>>>> 7011bd7fa44cfcbd29c7b265614aea8ae8c08092
 
 
 class DocsTest(unittest.TestCase):
@@ -87,7 +84,6 @@ class TestModelClass(unittest.TestCase):
         self.assertEqual(instance.name, "Holbies foravaaaa")
         self.assertEqual(instance.state_id, "111-222")
 
-<<<<<<< HEAD
     def test_datetime(self):
         """testing correct datetime assignation
         correct assignation of created_at and updated_at"""
@@ -130,7 +126,7 @@ class TestModelClass(unittest.TestCase):
         self.assertCountEqual(new_inst.keys(), expectec_attrs)
         self.assertEqual(new_inst['__class__'], 'Amenity')
         self.assertEqual(new_inst['name'], 'Holbies foravaaaa')
-=======
+
     def test_name_attr(self):
         """Test that Amenity has attribute name, and it's as an empty string"""
         amenity = Amenity()
@@ -151,7 +147,7 @@ class TestModelClass(unittest.TestCase):
             if attr is not "_sa_instance_state":
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
->>>>>>> 7011bd7fa44cfcbd29c7b265614aea8ae8c08092
+
 
     def test_str_method(self):
         """testing str method, checking output"""
