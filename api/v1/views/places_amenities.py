@@ -24,13 +24,11 @@ def get_amenities_by_place(place_id):
                  methods=["DELETE", "POST"])
 def handle_amenities_by_id(place_id, amenity_id):
     """ defines route to api/v1/places/<place_id>/amenities/<amenity_id> """
+    place = storage.get(classes['Place'], place_id)
+    amenity = storage.get(classes['Amenity'], amenity_id)
+    if not place or not amenity:
+        abort(404)
     if request.method == 'DELETE':
-        place = storage.get(classes['Place'], place_id)
-        if not place:
-            abort(404)
-        amenity = storage.get(classes['Amenity'], amenity_id)
-        if (not amenity):
-            abort(404)
         if storage_t == 'db':
             amenities = place.amenities
             a = amenity
@@ -45,13 +43,6 @@ def handle_amenities_by_id(place_id, amenity_id):
         abort(404)
 
     if request.method == 'POST':
-        place = storage.get(classes["Place"], place_id)
-        if place is None:
-            abort(404)
-        amenity = storage.get(["Amenity"], amenity_id)
-        if amenity is None:
-            abort(404)
-
         if storage_t == "db":
             amenities = place.amenities
         else:
