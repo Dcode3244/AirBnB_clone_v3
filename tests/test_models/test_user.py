@@ -88,7 +88,7 @@ class TestUser(unittest.TestCase):
         if models.storage_t == 'db':
             self.assertEqual(user.password, None)
         else:
-            self.assertEqual(user.password, "")
+            self.assertEqual(user.password, 'd41d8cd98f00b204e9800998ecf8427e')
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
@@ -118,7 +118,7 @@ class TestUser(unittest.TestCase):
         new_d = u.to_dict()
         self.assertEqual(type(new_d), dict)
         for attr in u.__dict__:
-            if attr is not "_sa_instance_state":
+            if attr != "_sa_instance_state":
                 with self.subTest(attr=attr):
                     self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
