@@ -63,3 +63,48 @@ def places_by_place_id(place_id):
                 setattr(places[0], key, value)
                 places[0].save()
         return jsonify(places[0].to_dict()), 200
+
+
+@app_views.route("/places_search", methods=['POST'])
+def place_search_get():
+    result = []
+    if not request.json:
+        return make_response("Not a JSON", 400)
+    if not len(request.json):
+        task = [task for task in storage.all('Place')]
+        return jsonify(task)
+    place_T = list(storage.all('Place').values())
+    if 'amenities' in request.json:
+        place_T = []
+        for T in storage.all('Place').values():
+            for ament in T.amenities:
+                for A_key in request.json['amenities']:
+                    if ament.id == A_key:
+                        place_T.append(ament)
+    if 'states' in request.json and 'cities' not in request.json:
+        states = [storage.get(classes["State"], states)
+                  for states in request.json['states']]
+        for state in states:
+            for city in state.cities:
+                for i in storage.all("Place").values():
+                    if i.city_id == city.id:
+                        result.append(i.to_dict())
+    elif 'cities' in request.json and 'states' not in request.json:
+        cities = request.json['cities']
+        for city in cities:
+            for i in storage.all("Place").values():
+                if i.city_id == city:
+                    result.append(i.to_dict())
+    else:
+        test = []
+        states = [storage.get(classes["State"], states)
+                  for states in request.json['states']]
+        citi = request.json['cities']
+        for state in states:
+            for city, city_P in zip(state.cities, citi):
+                for i in storage.all("Place").values():
+                    if i.city_id == city.id or i.city_id == city_P:
+                        test.append(i.to_dict())
+        result = []
+        [result.append(x) for x in test if x not in result]
+    return jsonify(result)
